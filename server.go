@@ -60,7 +60,7 @@ func saveDevice(device Device) (ok bool) {
 	session.SetMode(mgo.Monotonic, true)
 	c := session.DB("shooting").C("clients")
 
-	_, err = c.Upsert(bson.M{"Imei": device.Imei}, bson.M{"$set": bson.M{"Token": device.Token}})
+	_, err = c.Upsert(bson.M{"imei": device.Imei}, bson.M{"$set": bson.M{"token": device.Token}})
 
 	if err != nil {
 		panic(err)
@@ -78,7 +78,7 @@ func saveRange(radius Range) (ok bool) {
 	session.SetMode(mgo.Monotonic, true)
 	c := session.DB("shooting").C("clients")
 
-	_, err = c.Upsert(bson.M{"Imei": radius.Imei}, bson.M{"$set": bson.M{"Range": radius.Range}})
+	_, err = c.Upsert(bson.M{"imei": radius.Imei}, bson.M{"$set": bson.M{"range": radius.Range}})
 
 	if err != nil {
 		panic(err)
@@ -96,7 +96,7 @@ func saveLocation(location Location) (ok bool) {
 	session.SetMode(mgo.Monotonic, true)
 	c := session.DB("shooting").C("clients")
 
-	_, err = c.Upsert(bson.M{"Imei": location.Imei}, bson.M{"$set": bson.M{"Lat": location.Lat, "Lng": location.Lng}})
+	_, err = c.Upsert(bson.M{"imei": location.Imei}, bson.M{"$set": bson.M{"lat": location.Lat, "lng": location.Lng}})
 
 	if err != nil {
 		panic(err)
@@ -164,6 +164,6 @@ func main() {
 		log.Fatal(err)
 	}
 	api.SetApp(router)
-	log.Fatal(http.ListenAndServe(":8080", api.MakeHandler()))
+	log.Fatal(http.ListenAndServe(":80", api.MakeHandler()))
 
 }
